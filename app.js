@@ -10,7 +10,6 @@ const { DATABASE_URL } = process.env;
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const wikiRouter = require("./routes/wiki");
 
 const app = express();
 
@@ -33,7 +32,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/wiki", wikiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
