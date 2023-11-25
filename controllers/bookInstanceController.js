@@ -1,61 +1,61 @@
-const BookInstance = require("../models/bookinstance");
-const asyncHandler = require("express-async-handler");
+const BookInstance = require('../models/bookinstance');
+const asyncHandler = require('express-async-handler');
 
-//Display list of all BookInstances
+// Display list of all BookInstances
 exports.bookinstance_list = asyncHandler(async (req, res, next) => {
-	const allBookInstances = await BookInstance.find().populate("book").exec();
+  const allBookInstances = await BookInstance.find().populate('book').exec();
 
-	res.render("bookinstance_list", {
-		title: "Book Instance List",
-		bookinstance_list: allBookInstances,
-	});
+  res.render('bookinstance_list', {
+    title: 'Book Instance List',
+    bookinstance_list: allBookInstances,
+  });
 });
 
-//Display details page for a specific BookInstance
+// Display details page for a specific BookInstance
 exports.bookinstance_detail = asyncHandler(async (req, res, next) => {
-	const { params } = req;
-	const { id } = params;
+  const {params} = req;
+  const {id} = params;
 
-	const bookInstance = await BookInstance.findById(id).populate("book").exec();
+  const bookInstance = await BookInstance.findById(id).populate('book').exec();
 
-	if (bookInstance === null) {
-		const err = new Error("Book copy not found.");
-		err.status = 400;
-		return next(err);
-	}
+  if (bookInstance === null) {
+    const err = new Error('Book copy not found.');
+    err.status = 400;
+    return next(err);
+  }
 
-	res.render("bookinstance_detail", {
-		title: "Book:",
-		bookInstance,
-	});
+  res.render('bookinstance_detail', {
+    title: 'Book:',
+    bookInstance,
+  });
 });
 
-//Display BookInstance create form on GET
+// Display BookInstance create form on GET
 exports.bookinstance_create_get = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance create GET");
+  res.send('NOT IMPLEMENTED: BookInstance create GET');
 });
 
-//Handle BookInstance create on POST
+// Handle BookInstance create on POST
 exports.bookinstance_create_post = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance create POST");
+  res.send('NOT IMPLEMENTED: BookInstance create POST');
 });
 
-//Display BookInstance delete form on GET
+// Display BookInstance delete form on GET
 exports.bookinstance_delete_get = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance delete GET");
+  res.send('NOT IMPLEMENTED: BookInstance delete GET');
 });
 
-//Handle BookInstance delete on POST
+// Handle BookInstance delete on POST
 exports.bookinstance_delete_post = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance delete POST");
+  res.send('NOT IMPLEMENTED: BookInstance delete POST');
 });
 
-//Display BookInstance update form on GET
+// Display BookInstance update form on GET
 exports.bookinstance_update_get = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance update GET");
+  res.send('NOT IMPLEMENTED: BookInstance update GET');
 });
 
-//Handle BookInstance update on POST
+// Handle BookInstance update on POST
 exports.bookinstance_update_post = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: BookInstance update POST");
+  res.send('NOT IMPLEMENTED: BookInstance update POST');
 });

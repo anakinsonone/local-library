@@ -4,16 +4,16 @@
  * Module dependencies.
  */
 
-const app = require("../app");
-const debug = require("debug")("express-pug:server");
-const http = require("http");
+const app = require('../app');
+const debug = require('debug')('express-pug:server');
+const http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 /**
  * Create HTTP server.
@@ -26,61 +26,72 @@ const server = http.createServer(app);
  */
 
 server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
- * Normalize a port into a number, string, or false.
+ * Normalizes a given port value to either a valid port number or a named pipe.
+ *
+ * @function normalizePort
+ * @param {(number|string)} val - The port value to normalize.
+ * @return {(number|boolean|string)} The normalized port number,
+ * `false` if invalid, or the named pipe.
  */
-
 function normalizePort(val) {
-	const port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
-	if (isNaN(port)) {
-		// named pipe
-		return val;
-	}
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-	if (port >= 0) {
-		// port number
-		return port;
-	}
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-	return false;
+  return false;
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Handles server-specific errors and provides meaningful error messages.
+ *
+ * @function onError
+ * @param {Error} error - The error object to handle.
+ * @throws {Error} If the error is not related to a server listening operation.
+ * @throws {Error} If the error is a known listen error with a specific message.
  */
-
 function onError(error) {
-	if (error.syscall !== "listen") {
-		throw error;
-	}
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
 
-	const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-	// handle specific listen errors with friendly messages
-	switch (error.code) {
-		case "EACCES":
-			console.error(bind + " requires elevated privileges");
-			process.exit(1);
-			break;
-		case "EADDRINUSE":
-			console.error(bind + " is already in use");
-			process.exit(1);
-			break;
-		default:
-			throw error;
-	}
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Handles the 'listening' event of the server
+ * and logs the address or pipe it is listening on.
+ *
+ * @function onListening
+ * @memberof module:Server
  */
-
 function onListening() {
-	const addr = server.address();
-	const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-	debug("Listening on " + bind);
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  debug('Listening on ' + bind);
 }
