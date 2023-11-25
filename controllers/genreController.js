@@ -1,16 +1,38 @@
 const Genre = require("../models/genre");
+const Book = require("../models/book");
 const asyncHandler = require("express-async-handler");
 
 //Display list of all Genres
 exports.genre_list = asyncHandler(async (req, res, next) => {
-	res.send("NOT IMPLEMENTED: Genre list");
+	const allGenres = await Genre.find().sort({ name: 1 }).exec();
+
+	res.render("genre_list", {
+		title: "Genre List",
+		genre_list: allGenres,
+	});
 });
 
 //Display details of a specific Genre
 exports.genre_detail = asyncHandler(async (req, res, next) => {
 	const { params } = req;
 	const { id } = params;
-	res.send(`NOT IMPLEMENTED: Genre detail: ${id}`);
+
+	const [genre, booksInGenre] = await Promise.all([
+		Genre.findById(id).exec(),
+		Book.find({ genre: id }, "title summary").exec(),
+	]);
+
+	if (genre === null) {
+		const err = new Error("Genre not found.");
+		err.status = 400;
+		return next(err);
+	}
+
+	res.render("genre_detail", {
+		title: "Genre Detail",
+		genre: genre,
+		books_in_genre: booksInGenre,
+	});
 });
 
 //Display Genre create form on GET
