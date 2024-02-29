@@ -15,7 +15,7 @@ This project is aimed at building a simple library management system using Node.
 3. Set up a MongoDB database and update the configuration in `.env`.
 4. You can also specify a port in the same `.env`.
 5. Run the application with `npm start`.
-6. Access the application at `http://localhost:<port_number>`.
+6. Access the application at `http://localhost:<port_number>` (default: 3000).
 
 ## Technologies Used
 
