@@ -34,4 +34,9 @@ AuthorSchema.virtual('date_of_death_formatted').get(function() {
   '';
 });
 
+AuthorSchema.virtual('lifespan').get(function () {
+  return `${this.date_of_birth_formatted || ''} - 
+${this.date_of_death_formatted || ''}`;
+});
+
 module.exports = model('Author', AuthorSchema);
