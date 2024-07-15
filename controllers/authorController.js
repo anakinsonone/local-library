@@ -45,19 +45,19 @@ exports.author_create_get = (req, res, next) => {
 // Handle author create on POST
 exports.author_create_post = [
   body('first_name')
-      .trim()
-      .isLength({min: 1})
-      .escape()
-      .withMessage('First Name must be specified.')
-      .isAlphanumeric()
-      .withMessage('First Name has non-alphanumeric characters.'),
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage('First Name must be specified.')
+    .isAlphanumeric()
+    .withMessage('First Name has non-alphanumeric characters.'),
   body('family_name')
-      .trim()
-      .isLength({min: 1})
-      .escape()
-      .withMessage('Family Name must be specified.')
-      .isAlphanumeric()
-      .withMessage('Family Name has non-alphanumeric characters.'),
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage('Family Name must be specified.')
+    .isAlphanumeric()
+    .withMessage('Family Name has non-alphanumeric characters.'),
   body('date_of_birth').optional({values: 'falsy'}).isISO8601().toDate(),
   body('date_of_death').optional({values: 'falsy'}).isISO8601().toDate(),
 
@@ -83,8 +83,8 @@ exports.author_create_post = [
       return;
     } else {
       const authorExists = await Author.findOne({first_name, family_name})
-          .collation({locale: 'en', strength: 2})
-          .exec();
+        .collation({locale: 'en', strength: 2})
+        .exec();
 
       if (authorExists) {
         const {url} = authorExists;
