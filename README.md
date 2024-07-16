@@ -4,9 +4,7 @@ This project is aimed at building a simple library management system using Node.
 
 ## Features
 
-- Allows users to view, add, update, and delete books and authors.
-- Implements basic authentication for librarian and admin roles.
-- Provides search and filtering functionalities for books and authors.
+- Allows users to view, add, update, and delete books, authors, genres and copies of books.
 
 ## Getting Started
 
@@ -22,5 +20,6 @@ This project is aimed at building a simple library management system using Node.
 - Node.js
 - Express
 - MongoDB
+- Pug (a template engine)
 - HTML/CSS
 - JavaScript
