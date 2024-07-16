@@ -128,10 +128,52 @@ exports.genre_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Genre update form on GET
 exports.genre_update_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Genre update GET');
+  const {id} = req.params;
+
+  const genre = await Genre.findById(id).exec();
+
+  if (genre === null) {
+    // No results.
+    const err = new Error('Genre not found');
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render('genre_form', {title: 'Update Genre', genre});
 });
 
 // Handle Genre update on POST
-exports.genre_update_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Genre update POST');
-});
+exports.genre_update_post = [
+  // Validate and sanitize the name field.
+  body('name', 'Genre name must contain at least 3 characters')
+    .trim()
+    .isLength({min: 3})
+    .escape(),
+
+  // Process the request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    const {id} = req.params;
+    const {name} = req.body;
+    // Extract validation errors from the request.
+    const errors = validationResult(req);
+
+    const genre = new Genre({
+      name,
+      _id: id,
+    });
+
+    if (!errors.isEmpty()) {
+      // Errors exist. Render the form again with the sanitized values/error messages.
+      res.render('genre_form', {
+        title: 'Update Genre',
+        genre,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from the form is valid. Update the record.
+      const updatedGenre = await Genre.findByIdAndUpdate(id, genre, {});
+      res.redirect(updatedGenre.url);
+    }
+  }),
+];
