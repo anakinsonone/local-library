@@ -143,10 +143,73 @@ exports.author_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display author update form on GET
 exports.author_update_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Author update GET');
+  const {id} = req.params;
+  const author = await Promise.resolve(Author.findById(id).exec());
+
+  if (author === null) {
+    // No results.
+    const err = new Error('Author not found.');
+    err.status = 404;
+    return next(err);
+  }
+
+  console.log('author: ', author);
+
+  res.render('author_form', {
+    title: 'Update Author',
+    author,
+  });
 });
 
 // Handle author update on POST
-exports.author_update_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Author update POST');
-});
+exports.author_update_post = [
+  // Validate and sanitize the fields.
+  body('first_name')
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage('First Name must be specified.')
+    .isAlphanumeric()
+    .withMessage('First Name has non-alphanumeric characters.'),
+  body('family_name')
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage('Family Name must be specified.')
+    .isAlphanumeric()
+    .withMessage('Family Name has non-alphanumeric characters.'),
+  body('date_of_birth').optional({values: 'falsy'}).isISO8601().toDate(),
+  body('date_of_death').optional({values: 'falsy'}).isISO8601().toDate(),
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    const {id} = req.params;
+    const {first_name, family_name, date_of_birth, date_of_death} = req.body;
+
+    // Extract validation errors from the request.
+    const errors = validationResult(req);
+
+    const author = new Author({
+      first_name,
+      family_name,
+      date_of_birth,
+      date_of_death,
+      _id: id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized error messages.
+      const author = await Promise.resolve(Author.findById(id).exec());
+
+      res.render('author_form', {
+        title: 'Update Author',
+        author,
+        errors: errors.array(),
+      });
+    } else {
+      // Data from the form is valid. Update the record.
+      const updatedAuthor = await Author.findByIdAndUpdate(id, author, {});
+      res.redirect(updatedAuthor.url);
+    }
+  }),
+];
