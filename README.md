@@ -21,3 +21,8 @@ This project is aimed at building a simple library management system using Node.
 - [Express](https://expressjs.com/en/starter/installing.html)
 - [MongoDB](https://www.mongodb.com/)
 - [Pug (a template engine)](https://pugjs.org/api/getting-started.html)
+
+## Live Deployment
+
+The project has been deployed on [Render.com](https://render.com/)
+Click [here](https://mdn-local-libraryl.onrender.com) to view the project live.
