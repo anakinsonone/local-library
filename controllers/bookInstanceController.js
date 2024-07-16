@@ -91,9 +91,7 @@ exports.bookinstance_create_post = [
 // Display BookInstance delete form on GET
 exports.bookinstance_delete_get = asyncHandler(async (req, res, next) => {
   const {id} = req.params;
-  const bookInstance = await Promise.resolve(
-    BookInstance.findById(id).populate('book').exec(),
-  );
+  const bookInstance = await BookInstance.findById(id).populate('book').exec();
 
   if (bookinstance === null) {
     res.redirect('/catalog/bookinstances');
