@@ -1,15 +1,15 @@
 extends layout
 
 block content
-  h1 #{title} : #{bookinstance.book.title}
+  h1 #{title} : #{bookInstance.book.title}
 
-  p #[strong Imprint:] #{bookinstance.imprint}
+  p #[strong Imprint:] #{bookInstance.imprint}
 
   p Do you really  want to delete this book instance?
 
   form(method='POST' action='')
     div.form-group
-      input#bookinstanceid.form-control(type='hidden', name='bookinstanceid', required='true', value=bookinstance._id)
+      input#bookinstanceid.form-control(type='hidden', name='bookInstanceID', required='true', value=bookInstance._id)
 
     button.btn.btn-primary(type='submit') Delete
 
