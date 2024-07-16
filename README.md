@@ -24,5 +24,5 @@ This project is aimed at building a simple library management system using Node.
 
 ## Live Deployment
 
-The project has been deployed on [Render.com](https://render.com/)
+The project has been deployed on [Render.com](https://render.com/).
 Click [here](https://mdn-local-libraryl.onrender.com) to view the project live.
