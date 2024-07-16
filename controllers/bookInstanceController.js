@@ -137,6 +137,53 @@ exports.bookinstance_update_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle BookInstance update on POST
-exports.bookinstance_update_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: BookInstance update POST');
-});
+exports.bookinstance_update_post = [
+  // Validate and sanitize fields.
+  body('book', 'Book must be specified').trim().isLength({min: 1}).escape(),
+  body('imprint', 'Imprint must be specified.')
+    .trim()
+    .isLength({min: 1})
+    .escape(),
+  body('status').escape(),
+  body('due_back', 'Invalid date')
+    .optional({values: 'falsy'})
+    .isISO8601()
+    .toDate(),
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    const {id} = req.params;
+    const {book, imprint, status, due_back} = req.body;
+
+    // Extract validation errors from request.
+    const errors = validationResult(req);
+
+    // Create a BookInstance object with updated values.
+    const bookInstance = new BookInstance({
+      book,
+      imprint,
+      status,
+      due_back,
+      _id: id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with validated error messages.
+
+      const allBooks = await Book.find({}, 'title').exec();
+
+      res.render('bookinstance_form', {
+        title: 'Update BookInstance',
+        book_list: allBooks,
+        selected_book: bookInstance.book._id,
+        errors: errors.array(),
+        bookinstance: bookInstance,
+      });
+      return;
+    } else {
+      // Data from the form is valid.
+      await BookInstance.findByIdAndUpdate(id, bookInstance, {});
+      res.redirect(bookInstance.url);
+    }
+  }),
+];
