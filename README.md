@@ -17,8 +17,8 @@ This project is aimed at building a simple library management system using Node.
 
 ## Technologies Used
 
-- Node.js
-- Express
+- [Node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs)
+- [Express](https://expressjs.com/en/starter/installing.html)
 - MongoDB
 - Pug (a template engine)
 - HTML/CSS
