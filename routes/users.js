@@ -2,14 +2,14 @@ const express = require('express');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const userController = require('../controllers/userController');
 
-/* GET users/cool listing. */
-router.get('/cool', function(req, res) {
-  res.send('You\'re so cool!');
-});
+router.get('/login', userController.user_login_get);
+
+router.post('/login', userController.user_login_post);
+
+router.get('/register', userController.user_register_get);
+
+router.post('/register', userController.user_register_post);
 
 module.exports = router;
