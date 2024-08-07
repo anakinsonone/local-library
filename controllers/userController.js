@@ -106,7 +106,16 @@ exports.user_login_post = [
       });
       return;
     } else {
+      req.session.user = userExists.email;
       res.redirect('/catalog');
     }
   }),
 ];
+
+exports.user_logout_get = asyncHandler(async (req, res, next) => {
+  if (req.session && req.session.user) {
+    req.session.destroy();
+  }
+
+  res.redirect('/');
+});
