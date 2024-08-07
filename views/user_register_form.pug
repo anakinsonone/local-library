@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  
+  h1 #{title}
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='name') Name:
+      input#email.form-control(type='text' placeholder='Name'
+      name='name' required='true' value='')
+      label(for='email') Email:
+      input#email.form-control(type='email' placeholder='Email'
+      name='email' required='true' value='')
+      label(for='password') Password 
+      input#password.form-control(type='password' placeholder='Password'
+      name='password' required='true' value='')
+
+    button.btn.btn-primary(type='submit') Sign Up
+
+  br 
+  if errors
+    ul
+      each error in errors 
+        li!= error.msg
