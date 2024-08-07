@@ -69,6 +69,11 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
+  // log errors in development
+  const dev = process.env.NODE_ENV === 'development';
+  if (dev) {
+    console.log(err.message, err.stack);
+  }
   res.render('error');
 });
 
