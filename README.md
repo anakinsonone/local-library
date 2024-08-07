@@ -13,9 +13,11 @@ This project is aimed at building a simple library management system using Node.
 ### Method 1: Using git
 
 1. Clone the repository.
+
    ```bash
    git clone https://github.com/anakinsonone/local-library.git
    ```
+
 2. Install dependencies with `npm install`.
 3. Set up a MongoDB database and update the configuration in `.env`.
 4. You can also specify a port in the same `.env`.
