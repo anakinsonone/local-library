@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 require('dotenv').config();
 const {DATABASE_URL} = process.env;
@@ -13,6 +14,7 @@ const usersRouter = require('./routes/users');
 const catalogRouter = require('./routes/catalog');
 
 const app = express();
+const prod = process.env.NODE_ENV === 'production';
 
 mongoose.set('strictQuery', false);
 main().catch((error) => console.log(error));
@@ -37,18 +39,30 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: prod,
+      httpOnly: prod,
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+    },
+  }),
+);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/catalog', catalogRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
