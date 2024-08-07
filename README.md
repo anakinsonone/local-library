@@ -13,11 +13,16 @@ This project is aimed at building a simple library management system using Node.
 ### Method 1: Using git
 
 1. Clone the repository.
+   ```bash
+   git clone https://github.com/anakinsonone/local-library.git
+   ```
 2. Install dependencies with `npm install`.
 3. Set up a MongoDB database and update the configuration in `.env`.
 4. You can also specify a port in the same `.env`.
-5. Run the application with `npm start`.
-6. Access the application at `http://localhost:<port_number>` (default: 3000).
+5. Specify your mongodb url against the `DATABASE_URL` env variable.
+6. Create a session secret. You can use `openssl rand -base64 32`
+7. Run the application with `npm start`.
+8. Access the application at `http://localhost:<port_number>` (default: 3000).
 
 ### Method 2: Using docker
 
@@ -38,7 +43,7 @@ This project is aimed at building a simple library management system using Node.
    - `--name` - This assigns the name "local_library" to the container.
    - `-d` - This runs the container in detached mode (as a background process).
    - `-p 8080:3000` - This maps port 3000 from inside the container to port 8080 on the host machine.
-     This means you can access the application by going to localhost:8080 in your web browser.
+     This means you can access the application by going to `localhost:8080` in your web browser.
 
 ## Dependencies
 
